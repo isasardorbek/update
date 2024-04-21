@@ -70,11 +70,21 @@ def teacher_update(request, id):
 
     if request.method == 'POST':
 
-        teacher.first_name = request.POST.get('first_name', teacher.first_name)
-        teacher.last_name = request.POST.get('last_name', teacher.last_name)
+        teacher.first_name = request.POST.get('first_name')
+        teacher.last_name = request.POST.get('last_name')
+        teacher.username = request.POST.get('username')
+        teacher.email = request.POST.get('email')
+
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+
+        if password1 and password2:
+            if password1 == password2:
+                teacher.set_password(password2)
 
         teacher.save()
-        return redirect('teacher_detail', id=id)
+        return redirect('teachers')
 
     context = {
         'teacher': teacher
